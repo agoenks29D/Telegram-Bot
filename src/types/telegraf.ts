@@ -1,5 +1,5 @@
 import { Context, Scenes } from 'telegraf';
-import { ChatMember, Message, Update } from 'telegraf/types';
+import { ChatMember, ChatMemberAdministrator, Message, Update } from 'telegraf/types';
 
 export type ExcludeStatus<T, K extends string> = T extends { status: K } ? never : T;
 
@@ -12,6 +12,10 @@ export type ChatMemberActiveStatus = ChatMemberActive['status'];
 export type StickerMessageUpdate = Update.MessageUpdate<Message.StickerMessage>;
 
 export type TextMessageUpdate = Update.MessageUpdate<Message.TextMessage>;
+
+export interface ExtendedChatMemberAdministrator extends ChatMemberAdministrator {
+  can_manage_voice_chats?: boolean;
+}
 
 interface ExampleBaseScene1 {
   currentStep: number;

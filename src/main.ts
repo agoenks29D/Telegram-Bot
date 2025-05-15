@@ -1,13 +1,40 @@
 import 'dotenv/config';
 import http from 'http';
+import { Dialect } from 'sequelize';
+import { Sequelize } from 'sequelize-typescript';
 import bot from './bot';
 import { BOT_WEBHOOK_DOMAIN, BOT_WEBHOOK_ENABLE, BOT_WEBHOOK_PATH } from './bot/config';
+import { ChatAdministratorModel, ChatModel } from './models';
 import routes from './routes';
 import { logger } from './utils';
 
 const server = http.createServer(routes);
 
 server.on('listening', async () => {
+  const sequelize = new Sequelize({
+    dialect: process.env.DATABASE_DIALECT as Dialect,
+    host: process.env.DATABASE_HOST,
+    username: process.env.DATABASE_USER,
+    password: process.env.DATABASE_PASS,
+    database: process.env.DATABASE_NAME,
+    models: [ChatAdministratorModel, ChatModel],
+    logging: false,
+    define: {
+      underscored: true,
+    },
+  });
+
+  try {
+    await sequelize.authenticate();
+    await sequelize.sync({
+      alter: process.env.DATABASE_MODE === 'alter',
+      force: process.env.DATABASE_MODE === 'force',
+    });
+    logger.info('Database connection has been established successfully.');
+  } catch (error) {
+    logger.error('Unable to connect to the database:', error);
+  }
+
   try {
     await bot.launch({
       dropPendingUpdates: true,
