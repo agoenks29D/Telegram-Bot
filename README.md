@@ -13,6 +13,13 @@ A minimal and fast TypeScript starter template for building **Telegram bots** us
 - 📝 Example bot commands and workflows
 - 🚀 Easily extensible for more bot functionalities
 
+## 🧪 Branch Overview
+
+This repository includes additional branches for different use cases:
+
+- [example](https://github.com/agoenks29D/Telegram-Bot/tree/example) – Contains exploratory features and bot flow prototypes. Ideal for testing out new ideas or showcasing specific features.
+- [sequelize](https://github.com/agoenks29D/Telegram-Bot/tree/sequelize) – Integrates Sequelize ORM for bots that require database interaction using SQL-based storage.
+
 ## 🚀 Scripts
 
 | Command             | Description                                 |
@@ -24,9 +31,6 @@ A minimal and fast TypeScript starter template for building **Telegram bots** us
 ## 📁 Project Structure
 
 ```text
-├── dist/               # Folder containing the compiled JavaScript files
-├── logs/               # Folder to store log files of the application
-├── node_modules/       # Folder for installed Node.js dependencies
 ├── src/                # Folder for source code written in TypeScript
 │   ├── bot/            # Contains all the bot-related code
 │   │   ├── config/     # Configuration files for the bot (e.g., token, general settings)
