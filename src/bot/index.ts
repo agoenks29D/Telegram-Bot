@@ -6,10 +6,15 @@ import { example1, example2, example3, example4 } from './examples';
 import { logger } from './utils';
 
 const bot = new Telegraf<MyContext>(BOT_TOKEN);
+
+// Initialize session store using Redis
 const store: SessionStore<MySession> = Redis<MySession>({
   url: process.env.REDIS_URL,
 });
 
+/**
+ * Handler for the /start command
+ */
 bot.start(async (ctx) => {
   const { reply_markup } = Markup.inlineKeyboard([
     Markup.button.url(
@@ -18,15 +23,38 @@ bot.start(async (ctx) => {
     ),
   ]);
 
-  await ctx.reply('Start', {
-    reply_markup,
-  });
+  const message = `
+👋 Welcome! I'm here to help you interact with Telegram using some examples.
+
+Here are the available commands:
+
+/start - Start interaction with the bot
+/help - Display help information
+/settings - Display bot settings
+/example1 - Example 1: Inline keyboard with callback buttons
+/example2 - Example 2: Custom keyboard with text options
+/example3 - Example 3: A base scene with multi-step questions and basic navigation
+/example4 - Example 4: Wizard scene with multiple steps and user interaction
+/back - Go back to the previous step
+/cancel - Cancel the current operation
+  `.trim();
+
+  await ctx.reply(message, { reply_markup });
 });
 
+/**
+ * Handler for the /settings command
+ */
 bot.settings(async (ctx) => {
   await ctx.reply('Display bot settings');
 });
 
+/**
+ * Global middleware
+ * - Initializes session with default values
+ * - Adds full name to the context
+ * - Logs incoming updates
+ */
 bot.use(
   session({
     store,
@@ -52,45 +80,47 @@ bot.use(
 bot.use(example1, example2, example3, example4);
 
 /**
- * Back command for default
+ * Handler for the /back command
+ * (Default response if there's no active process)
  */
 bot.command('back', async (ctx) => {
   await ctx.reply('There is no active process to go back to');
 });
 
 /**
- * Cancel command for default
+ * Handler for the /cancel command
+ * (Default response if there's no ongoing process)
  */
 bot.command('cancel', async (ctx) => {
   await ctx.reply('There is no ongoing process to cancel');
 });
 
 /**
- * Help command for default
+ * Handler for the /help command
  */
 bot.help(async (ctx) => {
   await ctx.reply('Display bot help');
 });
 
 /**
- * Bot error handler
+ * Global error handler
  */
 bot.catch(async (error, ctx) => {
   if (error instanceof TelegramError) {
-    // create error log
+    // Log Telegram API errors
     logger.error(error);
 
-    // display error
     const [, errorCode] = error.description.split(':');
     const errorMessage = `Error: \`${errorCode}\``;
 
     try {
+      // Send error message to user
       const sendError = await ctx.replyWithMarkdownV2(errorMessage);
       setTimeout(async () => {
         await ctx.deleteMessage(sendError.message_id);
       }, 4000);
     } catch (err) {
-      // create error log
+      // Log any error while sending or deleting the message
       logger.error(err);
     }
   }
