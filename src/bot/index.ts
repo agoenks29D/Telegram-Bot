@@ -39,17 +39,11 @@ bot.start(async (ctx) => {
   ]);
 
   const message = `
-👋 Welcome! I'm here to help you interact with Telegram using some examples.
-
 Here are the available commands:
 
 /start - Start interaction with the bot
 /help - Display help information
 /settings - Display bot settings
-/example1 - Example 1: Inline keyboard with callback buttons
-/example2 - Example 2: Custom keyboard with text options
-/example3 - Example 3: A base scene with multi-step questions and basic navigation
-/example4 - Example 4: Wizard scene with multiple steps and user interaction
 /back - Go back to the previous step
 /cancel - Cancel the current operation
   `.trim();
