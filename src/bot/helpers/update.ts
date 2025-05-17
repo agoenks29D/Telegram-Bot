@@ -40,3 +40,26 @@ export const withTextMessage: (
     }
   };
 };
+
+/**
+ * Middleware wrapper that only executes the given handler
+ * if the current chat type matches one of the allowed types.
+ *
+ * This is useful for running middleware only in private chats,
+ * groups, or supergroups without blocking other middleware in the chain.
+ *
+ * @param types - Allowed chat types (e.g. ['private'], ['group', 'supergroup'])
+ * @param handler - The middleware to run if chat type matches
+ * @returns Middleware function that filters by chat type
+ */
+export const withChatType = (
+  types: Array<'private' | 'group' | 'supergroup' | 'channel'>,
+  handler: MiddlewareFn<MyContext>,
+): MiddlewareFn<MyContext> => {
+  return async (ctx, next) => {
+    if (ctx.chat && 'type' in ctx.chat && types.includes(ctx.chat.type)) {
+      return handler(ctx, next);
+    }
+    return next();
+  };
+};

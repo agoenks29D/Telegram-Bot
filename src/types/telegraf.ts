@@ -48,7 +48,7 @@ export interface MySession extends Scenes.WizardSession<MyWizardSession> {
 }
 
 export interface MyContext<U extends Update = Update> extends Context<U> {
-  fullName?: string; // user's or bot's username
+  fullName?: string; // user's or bot's full name
   scene: Scenes.SceneContextScene<MyContext, MyWizardSession>;
   wizard: Scenes.WizardContextWizard<MyContext>;
   session: MySession;
