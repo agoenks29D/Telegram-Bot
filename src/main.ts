@@ -31,16 +31,6 @@ server.on('listening', async () => {
         { command: '/start', description: 'Start interaction with the bot' },
         { command: '/help', description: 'Display help information' },
         { command: '/settings', description: 'Display bot settings' },
-        { command: '/example1', description: 'Example 1: Inline keyboard with callback buttons.' },
-        { command: '/example2', description: 'Example 2: Custom keyboard with text options.' },
-        {
-          command: '/example3',
-          description: 'Example 3: A base scene with multi-step questions and basic navigation.',
-        },
-        {
-          command: '/example4',
-          description: 'Example 4: Wizard scene with multiple steps and user interaction.',
-        },
         {
           command: '/back',
           description: 'Go back to the previous step',
