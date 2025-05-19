@@ -11,7 +11,7 @@ import { MyContext, StickerMessageUpdate, TextMessageUpdate } from '@/types';
  */
 export const withPhotoMessage = (handler: MiddlewareFn<MyContext>): MiddlewareFn<MyContext> => {
   return async (ctx, next) => {
-    if (ctx.message && 'photo' in ctx.message) {
+    if (ctx.msg && 'photo' in ctx.msg) {
       return handler(ctx, next);
     } else {
       await ctx.reply('Please send a photo.');
@@ -28,7 +28,7 @@ export const withPhotoMessage = (handler: MiddlewareFn<MyContext>): MiddlewareFn
  */
 export const withVoiceMessage = (handler: MiddlewareFn<MyContext>): MiddlewareFn<MyContext> => {
   return async (ctx, next) => {
-    if (ctx.message && 'voice' in ctx.message) {
+    if (ctx.msg && 'voice' in ctx.msg) {
       return handler(ctx, next);
     } else {
       await ctx.reply('Please send a voice message.');
@@ -46,7 +46,7 @@ export const withVoiceMessage = (handler: MiddlewareFn<MyContext>): MiddlewareFn
  */
 export const withVideoMessage = (handler: MiddlewareFn<MyContext>): MiddlewareFn<MyContext> => {
   return async (ctx, next) => {
-    if (ctx.message && 'video' in ctx.message) {
+    if (ctx.msg && 'video' in ctx.msg) {
       return handler(ctx, next);
     } else {
       await ctx.reply('Please send a video.');
@@ -64,7 +64,7 @@ export const withVideoMessage = (handler: MiddlewareFn<MyContext>): MiddlewareFn
  */
 export const withDocumentMessage = (handler: MiddlewareFn<MyContext>): MiddlewareFn<MyContext> => {
   return async (ctx, next) => {
-    if (ctx.message && 'document' in ctx.message) {
+    if (ctx.msg && 'document' in ctx.msg) {
       return handler(ctx, next);
     } else {
       await ctx.reply('Please send a document file.');
@@ -82,7 +82,7 @@ export const withDocumentMessage = (handler: MiddlewareFn<MyContext>): Middlewar
  */
 export const withLocationMessage = (handler: MiddlewareFn<MyContext>): MiddlewareFn<MyContext> => {
   return async (ctx, next) => {
-    if (ctx.message && 'location' in ctx.message) {
+    if (ctx.msg && 'location' in ctx.msg) {
       return handler(ctx, next);
     } else {
       await ctx.reply('Please share your location.');
@@ -117,7 +117,7 @@ export const withPollMessage = (handler: MiddlewareFn<MyContext>): MiddlewareFn<
  */
 export const withContactMessage = (handler: MiddlewareFn<MyContext>): MiddlewareFn<MyContext> => {
   return async (ctx, next) => {
-    if (ctx.message && 'contact' in ctx.message) {
+    if (ctx.msg && 'contact' in ctx.msg) {
       return handler(ctx, next);
     } else {
       await ctx.reply('Please share a contact.');
@@ -137,7 +137,7 @@ export const withStickerMessage = (
   handler: MiddlewareFn<MyContext<StickerMessageUpdate>>,
 ): MiddlewareFn<MyContext> => {
   return async (ctx, next) => {
-    if (ctx.message && 'sticker' in ctx.message) {
+    if (ctx.msg && 'sticker' in ctx.msg) {
       return handler(ctx as MyContext<StickerMessageUpdate>, next);
     } else {
       await ctx.reply('Please send a sticker.');
@@ -157,7 +157,7 @@ export const withTextMessage = (
   handler: MiddlewareFn<MyContext<TextMessageUpdate>>,
 ): MiddlewareFn<MyContext> => {
   return async (ctx, next) => {
-    if (ctx.message && 'text' in ctx.message) {
+    if (ctx.msg && 'text' in ctx.msg) {
       return handler(ctx as MyContext<TextMessageUpdate>, next);
     } else {
       await ctx.reply('Please respond with text.');

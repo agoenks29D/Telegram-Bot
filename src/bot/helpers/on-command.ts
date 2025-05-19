@@ -26,8 +26,7 @@ export function enableCustomCommands<C extends Context>(composer: Composer<C>) {
   >();
 
   composer.use(async (ctx, next) => {
-    const text =
-      'message' in ctx && ctx.message && 'text' in ctx.message ? ctx.message.text : undefined;
+    const text = 'message' in ctx && ctx.msg && 'text' in ctx.msg ? ctx.msg.text : undefined;
 
     if (text?.startsWith('!') || text?.startsWith('/')) {
       const commandText = text.slice(1);
