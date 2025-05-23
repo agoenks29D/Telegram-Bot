@@ -7,7 +7,7 @@ declare module 'telegraf' {
   interface Composer<C extends Context> {
     onCommand(
       command: string,
-      handler: MiddlewareFn<MessageContext<C> & { commandArgs?: string[] }>,
+      handler: MiddlewareFn<MessageContext<C> & { payloads?: string[] }>,
     ): this;
   }
 }
@@ -22,12 +22,11 @@ declare module 'telegraf' {
 export function enableCustomCommands<C extends Context>(composer: Composer<C>) {
   const customCommand = new Map<
     string,
-    MiddlewareFn<MessageContext<C> & { commandArgs?: string[] }>
+    MiddlewareFn<MessageContext<C> & { payloads?: string[] }>
   >();
 
   composer.use(async (ctx, next) => {
-    const text =
-      'message' in ctx && ctx.message && 'text' in ctx.message ? ctx.message.text : undefined;
+    const text = 'message' in ctx && ctx.msg && 'text' in ctx.msg ? ctx.msg.text : undefined;
 
     if (text?.startsWith('!') || text?.startsWith('/')) {
       const commandText = text.slice(1);
@@ -40,8 +39,8 @@ export function enableCustomCommands<C extends Context>(composer: Composer<C>) {
 
       const handler = customCommand.get(cmd);
       if (handler) {
-        (ctx as MessageContext<C> & { commandArgs?: string[] }).commandArgs = args;
-        return handler(ctx as MessageContext<C> & { commandArgs?: string[] }, next);
+        (ctx as MessageContext<C> & { payloads?: string[] }).payloads = args;
+        return handler(ctx as MessageContext<C> & { payloads?: string[] }, next);
       }
     }
 
@@ -56,7 +55,7 @@ export function enableCustomCommands<C extends Context>(composer: Composer<C>) {
    */
   composer.onCommand = (
     command: string,
-    handler: MiddlewareFn<MessageContext<C> & { commandArgs?: string[] }>,
+    handler: MiddlewareFn<MessageContext<C> & { payloads?: string[] }>,
   ) => {
     customCommand.set(command, handler);
     return composer;
