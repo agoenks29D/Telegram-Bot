@@ -1,0 +1,36 @@
+name: 💬 Question / Help
+description: Ask a question or get help with setup and usage
+title: "[Question]: "
+labels:
+  - question
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Before asking, please check the [README](../blob/main/README.md) and existing issues — your question might already be answered!
+
+  - type: textarea
+    id: question
+    attributes:
+      label: Your Question
+      description: Describe what you're trying to do or understand.
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: What Have You Tried?
+      description: Share any steps, code, or documentation you've already looked at.
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment Info
+      description: Node version, OS, and any other relevant info.
+      placeholder: |
+        - Node.js: v20.x
+        - OS: Ubuntu 22.04
+        - Telegraf: 4.16.3
