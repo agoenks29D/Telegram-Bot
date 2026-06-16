@@ -1,55 +1,240 @@
-# Telegram Bot Starter Kit
+# 🤖 Telegram Bot Starter Kit
 
-A minimal and fast TypeScript starter template for building **Telegram bots** using **Telegraf**. It utilizes **SWC** for ultra-fast TypeScript compilation and modern developer tooling to help you quickly develop and deploy Telegram bots.
+A production-ready Telegram bot starter built with [Telegraf](https://telegraf.js.org/), TypeScript, Express, Redis sessions, and Winston logging. Comes with webhook support, custom command handling, reusable middleware filters, and daily-rotated log files out of the box.
+
+[![CI](https://github.com/agoenks29D/telegram-bot/actions/workflows/ci.yml/badge.svg)](https://github.com/agoenks29D/telegram-bot/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
+[![Node.js](https://img.shields.io/badge/Node.js-20%2B-green)](https://nodejs.org)
 
 [![Deploy on Railway](https://railway.com/button.svg)](https://railway.com/template/7cnESs?referralCode=K0_xcg)
 
 ## ✨ Features
 
-- ⚡ Fast TypeScript compilation with SWC
-- 📦 Built with **Telegraf** for Telegram bot framework
-- 🧩 Path aliasing (`@/*`) for cleaner imports
-- 🔁 Live reload in development with **nodemon**
-- 🧹 Prettier, ESLint, and lint-staged for code quality
-- 🔒 Git hooks via **Husky**
-- 📝 Example bot commands and workflows
-- 🚀 Easily extensible for more bot functionalities
-
-## 🧪 Branch Overview
-
-This repository includes additional branches for different use cases:
-
-- [example](https://github.com/agoenks29D/Telegram-Bot/tree/example) – Contains exploratory features and bot flow prototypes. Ideal for testing out new ideas or showcasing specific features.
-- [sequelize](https://github.com/agoenks29D/Telegram-Bot/tree/sequelize) – Integrates Sequelize ORM for bots that require database interaction using SQL-based storage.
-
-## 🚀 Scripts
-
-| Command             | Description                                 |
-| ------------------- | ------------------------------------------- |
-| `npm run build`     | Compile TypeScript using SWC                |
-| `npm start`         | Run compiled JavaScript from `dist/main.js` |
-| `npm run start:dev` | Watch and reload on changes (build + run)   |
+- **TypeScript** — fully typed codebase with path aliases (`@/`)
+- **Telegraf v4** — modern Telegram bot framework
+- **Webhook & Polling** — switchable via environment variable
+- **Redis Session** — persistent session store using `@telegraf/session`
+- **Custom Command Handler** — supports both `/command` and `!command` prefixes with `@mention` filtering
+- **Reusable Middleware Filters** — photo, voice, video, document, location, poll, contact, sticker, text, admin-only, chat-type
+- **Winston Logging** — daily rotating log files for bot updates, errors, exceptions, and unhandled rejections
+- **Express Server** — webhook endpoint served via `express`
+- **SWC Compiler** — fast TypeScript compilation with `@swc/cli`
+- **Unit Tests** — Jest + ts-jest with coverage reporting
+- **Automated Dependency Updates** — Dependabot for npm and GitHub Actions
 
 ## 📁 Project Structure
 
-```text
-├── src/                # Folder for source code written in TypeScript
-│   ├── bot/            # Contains all the bot-related code
-│   │   ├── config/     # Configuration files for the bot (e.g., token, general settings)
-│   │   ├── examples/   # Example bot scenes or flows (e.g., example-1.ts)
-│   │   ├── helpers/    # Helper functions used by the bot
-│   │   └── utils/      # Utility functions and other supporting tools
-│   ├── routes/         # API routes (if the bot has any backend API integration)
-│   ├── types/          # TypeScript types for application data (e.g., MyContext, Telegraf types)
-│   └── utils/          # General utilities used across the application
-├── .env.example        # Example environment variables file (e.g., bot token, API keys)
-├── .gitignore          # List of files and directories to ignore in version control
-├── README.md           # Project documentation
-├── package-lock.json   # Lock file for dependencies to ensure consistent versions
-├── package.json        # Metadata about the project and dependencies
-└── tsconfig.json       # TypeScript configuration
+```
+src/
+├── bot/
+│   ├── config/        # Environment variable config
+│   ├── helpers/       # Middleware filters & custom command handler
+│   ├── utils/         # Bot logger & string utilities
+│   └── index.ts       # Bot setup, middleware, command handlers
+├── routes/
+│   └── index.ts       # Express app with webhook callback
+├── types/             # Shared TypeScript types & context extensions
+├── utils/             # App-level logger & sleep utility
+└── main.ts            # Entry point — HTTP server, bot launch, graceful shutdown
 ```
 
-## 🧑‍💻 Author
+## 🚀 Getting Started
 
-Created by [Agung Dirgantara](mailto:agungmasda29@gmail.com) — licensed under [MIT](LICENSE).
+### Prerequisites
+
+- **Node.js** v20+
+- **Redis** — running locally or via a remote URL
+- **Telegram Bot Token** — get one from [@BotFather](https://t.me/BotFather)
+- **ngrok** (optional) — for webhook development tunneling
+
+### Installation
+
+```bash
+# 1. Clone the repository
+git clone https://github.com/agoenks29D/telegram-bot.git
+cd telegram-bot
+
+# 2. Install dependencies
+npm install
+
+# 3. Copy and fill in your environment variables
+cp .env.example .env
+```
+
+### Environment Variables
+
+| Variable             | Default              | Description                                    |
+|----------------------|----------------------|------------------------------------------------|
+| `TZ`                 | `UTC`                | Timezone for the application                   |
+| `PORT`               | `3000`               | HTTP server port                               |
+| `NODE_ENV`           | `production`         | `production` or `development`                  |
+| `BOT_TOKEN`          | *(required)*         | Telegram Bot Token from BotFather              |
+| `BOT_STORE`          | `redis`              | Session store type                             |
+| `REDIS_URL`          | `redis://localhost:6379` | Redis connection URL                       |
+| `BOT_WEBHOOK_ENABLE` | `false`              | Set to `true` to use webhook instead of polling |
+| `BOT_WEBHOOK_PATH`   | `/`                  | URL path for the webhook endpoint              |
+| `BOT_WEBHOOK_DOMAIN` | *(required if webhook)* | Public HTTPS domain (e.g. ngrok URL)       |
+
+### Running the Bot
+
+```bash
+# Development (watch mode with hot reload)
+npm run start:dev
+
+# Production (build then start)
+npm run build
+npm start
+```
+
+---
+
+## 🔗 Webhook Setup (Development)
+
+To test webhooks locally, use [ngrok](https://ngrok.com/):
+
+```bash
+ngrok http 3000
+```
+
+Then update your `.env`:
+
+```env
+BOT_WEBHOOK_ENABLE = true
+BOT_WEBHOOK_DOMAIN = https://your-ngrok-subdomain.ngrok-free.app
+BOT_WEBHOOK_PATH = /
+```
+
+---
+
+## 🧩 Usage
+
+### Custom Commands
+
+The `enableCustomCommands` helper extends `Composer` with an `onCommand` method that handles both `/command` and `!command` prefixes, including `@BotUsername` mention filtering.
+
+```typescript
+import { enableCustomCommands } from '@/bot/helpers';
+import { Composer } from 'telegraf';
+
+const composer = enableCustomCommands(new Composer<MyContext>());
+
+composer.onCommand('hello', async (ctx) => {
+  const [name] = ctx.payloads ?? [];
+  await ctx.reply(`Hello, ${name ?? 'world'}!`);
+});
+```
+
+### Middleware Filters
+
+Import filters from `@/bot/helpers` to guard handlers by message type:
+
+```typescript
+import {
+  withPhotoMessage,
+  withTextMessage,
+  withAdminOnly,
+  withChatType,
+} from '@/bot/helpers';
+
+// Only runs if the message contains a photo
+bot.on('message', withPhotoMessage(async (ctx) => {
+  await ctx.reply('Got your photo!');
+}));
+
+// Restrict a command to group admins only
+bot.command('ban', withAdminOnly(async (ctx) => {
+  await ctx.reply('You are an admin!');
+}));
+
+// Run middleware only in private chats
+bot.on('message', withChatType(['private'], async (ctx, next) => {
+  // This runs only in DMs
+  return next();
+}));
+```
+
+### Session
+
+Session data is persisted in Redis. Extend `MySession` in `src/types/telegraf.ts` to add your own fields:
+
+```typescript
+export interface MySession extends Scenes.WizardSession<MyWizardSession> {
+  firstStart: boolean;
+  myCustomField?: string; // add your fields here
+}
+```
+
+Access it in handlers via `ctx.session.myCustomField`.
+
+---
+
+## 🧪 Testing
+
+```bash
+# Run all unit tests
+npm test
+
+# Run with coverage report
+npm test -- --coverage
+```
+
+Tests are located in `__tests__/` directories alongside their source files.
+
+---
+
+## 📋 Available Scripts
+
+| Script           | Description                                          |
+|------------------|------------------------------------------------------|
+| `npm run build`  | Compile TypeScript with SWC into `dist/`             |
+| `npm start`      | Start the compiled bot from `dist/main.js`           |
+| `npm run start:dev` | Watch mode: rebuild on change and restart bot     |
+| `npm test`       | Run Jest unit tests                                  |
+| `npm run format` | Format source files with Prettier                    |
+
+---
+
+## 📜 Logging
+
+Logs are written to the `logs/` directory and rotated daily. Files are retained for **14 days** and compressed after rotation.
+
+```
+logs/
+├── app/
+│   ├── errors/       # App-level errors
+│   ├── exceptions/   # Unhandled exceptions
+│   └── rejections/   # Unhandled promise rejections
+└── bot/
+    ├── updates/      # All incoming Telegram updates
+    ├── errors/       # Bot-level errors
+    ├── exceptions/   # Unhandled exceptions
+    └── rejections/   # Unhandled promise rejections
+```
+
+> The `logs/` directory is excluded from version control via `.gitignore`.
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome! Please follow these steps:
+
+1. Fork the repository
+2. Create a feature branch: `git checkout -b feat/your-feature-name`
+3. Commit your changes: `git commit -m "feat: add your feature"`
+4. Push to your branch: `git push origin feat/your-feature-name`
+5. Open a Pull Request
+
+Please use [Conventional Commits](https://www.conventionalcommits.org/) for your commit messages.
+
+---
+
+## 📄 License
+
+This project is licensed under the [MIT License](./LICENSE).
+
+---
+
+## 👤 Author
+
+**Agung Dirgantara** — [agungmasda29@gmail.com](mailto:agungmasda29@gmail.com)
