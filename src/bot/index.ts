@@ -13,6 +13,33 @@ const store: SessionStore<MySession> = Redis<MySession>({
 });
 
 /**
+ * Global middleware
+ * - Initializes session with default values
+ * - Adds full name to the context
+ * - Logs incoming updates
+ */
+bot.use(
+  session({
+    store,
+    defaultSession: () => ({
+      firstStart: false,
+    }),
+  }),
+  (ctx, next) => {
+    if (ctx.from) {
+      ctx.fullName = `${ctx.from.first_name} ${ctx.from.last_name}`.trim();
+    }
+
+    // log updates
+    logger.log('updates', ctx.update);
+
+    return next();
+  },
+);
+
+bot.use(example1, example2, example3, example4);
+
+/**
  * Handler for the /start command
  */
 bot.start(async (ctx) => {
@@ -42,36 +69,6 @@ Here are the available commands:
 bot.settings(async (ctx) => {
   await ctx.reply('Display bot settings');
 });
-
-/**
- * Global middleware
- * - Initializes session with default values
- * - Adds full name to the context
- * - Logs incoming updates
- */
-bot.use(
-  session({
-    store,
-    defaultSession: () => ({
-      firstStart: false,
-    }),
-  }),
-  (ctx, next) => {
-    if (ctx.from) {
-      ctx.fullName = `${ctx.from.first_name} ${ctx.from.last_name}`.trim();
-    }
-
-    // log updates
-    logger.log('updates', ctx.update);
-
-    return next();
-  },
-);
-
-/**
- * Load examples
- */
-bot.use(example1, example2, example3, example4);
 
 /**
  * Handler for the /back command

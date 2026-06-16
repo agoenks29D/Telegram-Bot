@@ -13,6 +13,7 @@
   "main": "dist/main.js",
   "scripts": {
     "build": "swc -s --strip-leading-paths -d dist src/",
+    "format": "prettier --write \"src/**/*.ts\"",
     "start": "node dist/main.js",
     "start:dev": "concurrently \"npm run build -- --watch\" \"nodemon dist/main.js --delay 1\"",
     "prepare": "husky"
@@ -34,6 +35,7 @@
     "html-entities": "^2.6.0",
     "lodash": "^4.17.21",
     "moment": "^2.30.1",
+    "moment-timezone": "^0.5.48",
     "redis": "^4.7.1",
     "telegraf": "^4.16.3",
     "winston": "^3.17.0",
@@ -41,11 +43,12 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.26.0",
-    "@swc/cli": "^0.7.5",
+    "@swc/cli": "^0.8.1",
     "@swc/core": "^1.11.24",
     "@types/express": "^5.0.1",
     "@types/lodash": "^4.17.16",
     "@types/node": "^22.15.17",
+    "chokidar": "^5.0.0",
     "concurrently": "^9.1.2",
     "eslint": "^9.26.0",
     "globals": "^16.1.0",

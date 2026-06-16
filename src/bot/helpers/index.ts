@@ -1,2 +1,2 @@
 export * from './on-command';
-export * from './update';
+export * from './filters';

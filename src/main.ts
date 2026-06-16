@@ -8,20 +8,17 @@ import { logger } from './utils';
 const server = http.createServer(routes);
 
 server.on('listening', async () => {
-  try {
-    await bot.launch({
-      dropPendingUpdates: true,
-      webhook: BOT_WEBHOOK_ENABLE
-        ? {
-            path: BOT_WEBHOOK_PATH,
-            domain: BOT_WEBHOOK_DOMAIN,
-          }
-        : undefined,
-    });
-    logger.info('Telegram bot launched');
-  } catch (error) {
-    logger.error(error);
-  }
+  bot.launch({
+    dropPendingUpdates: true,
+    webhook: BOT_WEBHOOK_ENABLE
+      ? {
+          path: BOT_WEBHOOK_PATH,
+          domain: BOT_WEBHOOK_DOMAIN,
+        }
+      : undefined,
+  });
+
+  logger.info('Telegram bot launched');
 
   // Set bot commands
   try {
