@@ -18,7 +18,7 @@ server.on('listening', async () => {
       : undefined,
   });
 
-  logger.info('Telegram bot launched');
+  logger('bot').info('Telegram bot launched');
 
   // Set bot commands
   try {
@@ -43,9 +43,9 @@ server.on('listening', async () => {
       },
     );
 
-    logger.info('Bot commands have been successfully set up.');
+    logger('bot').info('Bot commands have been successfully set up.');
   } catch (error) {
-    logger.error('Failed to set up bot commands:', error);
+    logger('bot').error('Failed to set up bot commands:', error);
   }
 });
 
@@ -53,12 +53,12 @@ server.on('listening', async () => {
  * Graceful shutdown
  */
 process.once('SIGINT', () => {
-  logger.info('SIGINT received');
+  logger('app').info('SIGINT received');
   bot.stop('SIGINT');
 });
 
 process.once('SIGTERM', () => {
-  logger.info('SIGTERM received');
+  logger('app').info('SIGTERM received');
   bot.stop('SIGTERM');
 });
 
