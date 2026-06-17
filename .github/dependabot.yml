@@ -3,6 +3,7 @@ version: 2
 updates:
   # npm dependencies
   - package-ecosystem: npm
+    target-branch: develop
     directory: /
     schedule:
       interval: weekly
@@ -33,6 +34,7 @@ updates:
 
   # GitHub Actions
   - package-ecosystem: github-actions
+    target-branch: develop
     directory: /
     schedule:
       interval: weekly
