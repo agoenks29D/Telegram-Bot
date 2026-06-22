@@ -33,7 +33,7 @@
   "dependencies": {
     "@faker-js/faker": "^9.8.0",
     "@telegraf/session": "^2.0.0-beta.7",
-    "dotenv": "^16.5.0",
+    "dotenv": "^17.4.2",
     "express": "^5.1.0",
     "html-entities": "^2.6.0",
     "lodash": "^4.17.21",
