@@ -53,7 +53,7 @@
     "@types/lodash": "^4.17.24",
     "@types/node": "^22.15.17",
     "chokidar": "^5.0.0",
-    "concurrently": "^9.1.2",
+    "concurrently": "^10.0.3",
     "eslint": "^9.26.0",
     "globals": "^16.1.0",
     "husky": "^9.1.7",
