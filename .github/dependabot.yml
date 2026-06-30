@@ -8,7 +8,7 @@ updates:
     schedule:
       interval: weekly
       day: monday
-      time: "09:00"
+      time: '09:00'
       timezone: Asia/Jakarta
     open-pull-requests-limit: 10
     groups:
@@ -25,11 +25,13 @@ updates:
       - dependency-name: telegraf
         update-types:
           - version-update:semver-major
+      - dependency-name: '@faker-js/faker'
+        versions: ['>=10.0.0']
     labels:
       - dependencies
       - automated
     commit-message:
-      prefix: "chore(deps)"
+      prefix: 'chore(deps)'
       include: scope
 
   # GitHub Actions
@@ -39,7 +41,7 @@ updates:
     schedule:
       interval: weekly
       day: monday
-      time: "09:00"
+      time: '09:00'
       timezone: Asia/Jakarta
     open-pull-requests-limit: 5
     labels:
@@ -47,5 +49,5 @@ updates:
       - github-actions
       - automated
     commit-message:
-      prefix: "chore(actions)"
+      prefix: 'chore(actions)'
       include: scope
