@@ -54,17 +54,17 @@
     "@types/node": "^26.1.1",
     "chokidar": "^5.0.0",
     "concurrently": "^10.0.3",
-    "eslint": "^10.7.0",
-    "globals": "^17.7.0",
+    "eslint": "^10.8.0",
+    "globals": "^17.8.0",
     "husky": "^9.1.7",
     "jest": "^30.4.2",
-    "lint-staged": "^17.1.0",
+    "lint-staged": "^17.2.0",
     "nodemon": "^3.1.14",
     "prettier": "3.9.5",
     "ts-jest": "^29.4.11",
     "ts-node": "^10.9.2",
     "typescript": "^6.0.3",
-    "typescript-eslint": "^8.64.0"
+    "typescript-eslint": "^8.65.0"
   },
   "jest": {
     "preset": "ts-jest",
